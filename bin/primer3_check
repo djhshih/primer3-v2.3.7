@@ -1,0 +1,34 @@
+#!/bin/bash
+# Check oligonucleotide properties with primer3_core
+
+base="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if (( $# < 1 )); then
+	echo "usage: ${0##*/} <sequence>"
+	exit
+fi
+
+# global settings
+read -r -d '' settings << EOF
+Primer3 File - http://primer3.sourceforge.net
+P3_FILE_TYPE=settings
+
+PRIMER_THERMODYNAMIC_PARAMETERS_PATH=$base/../primer3_config/
+=
+EOF
+
+# input file
+read -r -d '' input << EOF
+PRIMER_TASK=check_primers
+PRIMER_PICK_ANYWAY=1
+SEQUENCE_PRIMER=$1
+=
+EOF
+
+# discard $1
+shift;
+
+# feed sequence into primer3_core and remove all lines until and including the relevant line
+$base/primer3_core --p3_settings_file <(echo "$settings") <(echo "$input") $@ | \
+	sed -n '/PRIMER_LEFT_0_SEQUENCE/,$p'
+
