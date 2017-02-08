@@ -40,15 +40,6 @@ help() {
 # Check oligonucleotide properties with primer3_core
 primer3_check() {
 
-	# global settings
-	read -r -d '' settings <<- EOT || true
-	Primer3 File - http://primer3.sourceforge.net
-	P3_FILE_TYPE=settings
-
-	PRIMER_THERMODYNAMIC_PARAMETERS_PATH=$PRIMER3_PATH/share/primer3/config/
-	=
-	EOT
-
 	# input file
 	read -r -d '' input <<- EOT || true
 	PRIMER_TASK=check_primers
