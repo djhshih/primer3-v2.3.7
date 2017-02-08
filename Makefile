@@ -9,7 +9,7 @@ install: base
 	mkdir -p $(DESTDIR)/bin
 	cp $(addprefix src/, $(targets)) $(DESTDIR)/bin
 	cp bin/primer3 $(DESTDIR)/bin
-	cp -r share $(DESTDIR)/share/
+	cp -r share $(DESTDIR)
 
 uninstall:
 	rm -f $(addprefix $(DESTDIR)/bin/, $(targets))
