@@ -1,13 +1,21 @@
 #!/bin/bash
 
-base="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ -z $PRIMER3_PATH ]; then 
+	PRIMER3_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+fi
+
+if (( $# < 1 )); then
+	echo "usage: ${0##*/} <input_file>"
+	exit
+fi
 
 read -r -d '' settings << EOF
 Primer3 File - http://primer3.sourceforge.net
 P3_FILE_TYPE=settings
 
-PRIMER_THERMODYNAMIC_PARAMETERS_PATH=$base/../primer3_config/
+PRIMER_THERMODYNAMIC_PARAMETERS_PATH=$PRIMER3_PATH/share/primer3/config/
 =
 EOF
 
-$base/primer3_core --p3_settings_file <(echo "$settings") $@
+primer3_core --p3_settings_file <(echo "$settings") $@
